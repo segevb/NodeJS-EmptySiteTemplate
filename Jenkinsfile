@@ -9,7 +9,6 @@ pipeline {
     stage('Check Out Code') {
       steps {
         git(url: 'https://github.com/segevb/NodeJS-EmptySiteTemplate.git', branch: 'master', changelog: true, poll: true)
-        cleanWs(cleanWhenSuccess: true, cleanWhenAborted: true, cleanWhenFailure: true)
       }
     }
 
@@ -53,6 +52,7 @@ fi'''
     stage('Publish the Archive') {
       steps {
         archiveArtifacts 'node.tar.gz'
+        cleanWs(cleanWhenAborted: true, cleanWhenFailure: true, cleanWhenSuccess: true, cleanWhenNotBuilt: true, cleanWhenUnstable: true)
       }
     }
 
