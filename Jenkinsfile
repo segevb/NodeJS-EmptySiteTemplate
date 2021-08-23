@@ -51,7 +51,6 @@ fi'''
     stage('Publish the Archive') {
       steps {
         archiveArtifacts 'node.tar.gz'
-        cleanWs(cleanWhenAborted: true, cleanWhenFailure: true, cleanWhenSuccess: true, cleanWhenNotBuilt: true, cleanWhenUnstable: true)
       }
     }
 
@@ -59,6 +58,7 @@ fi'''
       steps {
         sh '''chmod 777 test.sh &&
 ./test.sh'''
+        cleanWs(cleanWhenAborted: true, cleanWhenFailure: true, cleanWhenNotBuilt: true, cleanWhenSuccess: true, cleanWhenUnstable: true)
       }
     }
 
