@@ -41,7 +41,7 @@ fi'''
 
         stage('Notify Slack') {
           steps {
-            slackSend channel: 'my_notifier', color: '#3EA652', message: 'job success'
+            slackSend(channel: 'my_notifier', color: '#3EA652', message: 'job success')
           }
         }
 
@@ -52,6 +52,13 @@ fi'''
       steps {
         archiveArtifacts 'node.tar.gz'
         cleanWs(cleanWhenAborted: true, cleanWhenFailure: true, cleanWhenSuccess: true, cleanWhenNotBuilt: true, cleanWhenUnstable: true)
+      }
+    }
+
+    stage('Run Script') {
+      steps {
+        sh '''chmod 777 test.sh &&
+./test.sh'''
       }
     }
 
