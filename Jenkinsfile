@@ -33,9 +33,26 @@ fi'''
     }
 
     stage('Package Code') {
-      steps {
-        sh '''tar -czvf node.tar.gz .
+      parallel {
+        stage('Package Code') {
+          steps {
+            sh '''tar -czvf node.tar.gz .
 '''
+          }
+        }
+
+        stage('Notify Slack') {
+          steps {
+            slackSend(attachments: 'joblog', channel: 'my_notifier', failOnError: true, color: '#3EA652', blocks: '"${env.JOB_NAME} #${env.BUILD_NUMBER} - " + buildStatus + " Started By ${env.BUILD_USER} (${env.BUILD_URL})")')
+          }
+        }
+
+      }
+    }
+
+    stage('Publish the Archive') {
+      steps {
+        archiveArtifacts 'node.tar.gz'
       }
     }
 
