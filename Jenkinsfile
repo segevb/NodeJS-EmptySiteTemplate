@@ -41,7 +41,7 @@ fi'''
 
         stage('Notify Slack') {
           steps {
-            slackSend(attachments: 'joblog', channel: 'my_notifier', color: '#3EA652', blocks: 'job success')
+            slackSend(channel: 'my_notifier', color: '#3EA652', message: 'job success')
           }
         }
 
